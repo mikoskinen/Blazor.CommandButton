@@ -1,8 +1,8 @@
 # Blazor.CommandButton
 
-![](https://mikaelkoskinen.net/posts/files/a538b205-fc31-4291-b5f0-c3491e22f7fe.gif)
-
 Blazor.CommandButton is a lightweight button component for Blazor. CommandButton provides support for setting a guard method or property to the button.
+
+![](https://mikaelkoskinen.net/posts/files/a538b205-fc31-4291-b5f0-c3491e22f7fe.gif)
 
 Guard methods allow you to disable or enable buttons based on some conditions. Some examples:
 
