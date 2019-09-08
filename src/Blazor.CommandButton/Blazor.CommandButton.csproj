@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Mikael Koskinen</Authors>
+    <Company />
+    <Description>Lightweight button replacement for Blazor. Provides support for guarding actions.</Description>
+    <PackageProjectUrl>https://github.com/mikoskinen/Blazor.CommandButton</PackageProjectUrl>
+    <PackageId>CommandButton.Blazor</PackageId>
+    <Product>CommandButton.Blazor</Product>
+    <AssemblyName>CommandButton.Blazor</AssemblyName>
+    <RootNamespace>Blazor.CommandButton</RootNamespace>
+    <PackageLicenseUrl>https://github.com/mikoskinen/Blazor.CommandButton/blob/master/LICENSE</PackageLicenseUrl>
+    <Version>0.9.0</Version>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0-preview9.19424.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview9.19424.4" />
+    <PackageReference Include="Dynamitey" Version="2.0.9.136" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,107 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Dynamitey
+@using Microsoft.Extensions.Logging
+@inject ILogger<CommandButton> logger
+
+<button class="@(@class)" @onclick="OnClick" disabled="@(!CanRunCommand)">@ChildContent</button>
+
+@code {
+
+    /// <summary>
+    /// Command which is executed when the button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    /// <summary>
+    /// Property or func which is used to guard the command. If true, command can be executed.
+    /// </summary>
+    [Parameter]
+    public Func<bool> Guard { get; set; }
+
+    [Parameter]
+    public string @class { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        // Don't do anything if no delegate is set
+        if (OnClick.HasDelegate == false)
+        {
+            return;
+        }
+
+        // If guard is set, no need to automatically to set the guard method
+        if (Guard != null)
+        {
+            return;
+        }
+
+        TrySetGuard();
+    }
+
+    /// <summary>
+    /// Tries to automatically set the guard method based on the command.
+    /// </summary>
+    private bool TrySetGuard()
+    {
+        try
+        {
+            logger.LogTrace("Try to automatically decide the guard property for the command based on the command's method name. This only works with methods groups.");
+
+            IHandleEvent receiver = Dynamic.InvokeGet(OnClick, "Receiver");
+            MulticastDelegate @delegate = Dynamic.InvokeGet(OnClick, "Delegate");
+
+            var methodName = @delegate.Method.Name;
+
+            var methods = Dynamic.GetMemberNames(receiver);
+            var guardMethodName = "Can" + methodName;
+
+            if (!methods.Contains(guardMethodName, StringComparer.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
+
+            Guard = () => Dynamic.InvokeGet(receiver, guardMethodName);
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            // Don't crash the application but log the error.
+            logger.LogError(e, "Failed to set guard property for action. Make sure the guard property is of type bool.");
+        }
+
+        return false;
+    }
+
+    private bool CanRunCommand
+    {
+        get
+        {
+            // If no guard set, command can be executed
+            if (Guard == null)
+            {
+                return true;
+            }
+
+            if (Guard != null)
+            {
+                try
+                {
+                    var res = (bool)Guard.FastDynamicInvoke();
+                    return res;
+                }
+                catch (Exception e)
+                {
+                    // Don't crash the application but log the error.
+                    logger.LogError(e, "Failed to run guard check.");
+                }
+            }
+
+            return true;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<h1>Basic CommandButton sample</h1>
+
+<p>Current count: @currentCount</p>
+
+<CommandButton class="btn btn-primary" @onclick="@(() => CanIncrementCount = true)">Enable</CommandButton>
+<CommandButton class="btn btn-warning" @onclick="@(() => CanIncrementCount = false)">Disable</CommandButton>
+<CommandButton class="btn btn-primary" @onclick="@ToggleGuard">Toggle guard</CommandButton>
+<br/>
+<CommandButton class="btn btn-primary" @onclick="@(() => IncrementCount(3))" Guard="@(() => currentCount < 10 && CanIncrementCount)">Increment by 3 until > 10</CommandButton>
+<CommandButton class="btn btn-primary" @onclick="@IncrementCount">Increment by 1</CommandButton>
+
+@code {
+    int currentCount = 0;
+
+    public void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    public Task IncrementCount(int value)
+    {
+        currentCount += value;
+
+        return Task.CompletedTask;
+    }
+
+    public bool CanIncrementCount { get; set; } = false;
+
+    public void ToggleGuard()
+    {
+        CanIncrementCount = !CanIncrementCount;
+    }
+}
