@@ -34,6 +34,48 @@ public bool CanIncrementCount { get; set; } = false;
 
 If the guard return false, the button is disabled. When guard returns true, the button is automatically enabled.
 
+## Full sample code
+
+The following code introduces the features of the CommandButton component:
+
+```
+@page "/"
+
+<h1>Basic CommandButton sample</h1>
+
+<p>Current count: @currentCount</p>
+
+<CommandButton class="btn btn-primary" @onclick="@(() => CanIncrementCount = true)">Enable</CommandButton>
+<CommandButton class="btn btn-warning" @onclick="@(() => CanIncrementCount = false)">Disable</CommandButton>
+<CommandButton class="btn btn-primary" @onclick="@ToggleGuard">Toggle guard</CommandButton>
+<br/>
+<CommandButton class="btn btn-primary" @onclick="@(() => IncrementCount(3))" Guard="@(() => currentCount < 10 && CanIncrementCount)">Increment by 3 until > 10</CommandButton>
+<CommandButton class="btn btn-primary" @onclick="@IncrementCount">Increment by 1</CommandButton>
+
+@code {
+    int currentCount = 0;
+
+    public void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    public Task IncrementCount(int value)
+    {
+        currentCount += value;
+
+        return Task.CompletedTask;
+    }
+
+    public bool CanIncrementCount { get; set; } = false;
+
+    public void ToggleGuard()
+    {
+        CanIncrementCount = !CanIncrementCount;
+    }
+}
+```
+
 ## Guarding methods with a boolean property
 
 If your CommandButton's onclick is bound to a method like in the previous example, CommandButton can automatically determine the guard property's name by adding "Can" infront of it.
