@@ -9,7 +9,7 @@ Guard methods allow you to disable or enable buttons based on some conditions. S
 * Button is disabled if user doesn't have the appropriate authorization
 * Button is disabled if some required input is missing.
 
-This release has been tested with the server side version of .NET Core v3.0.0-preview9 Blazor.
+This release has been tested with the server side version of .NET Core v3.0.0 Blazor. Please note that the library has only been tested with the server-side version of Blazor but there's no known issues with the WebAssembly-version.
 
 [![NuGet](https://img.shields.io/nuget/v/CommandButton.Blazor.svg)](https://www.nuget.org/packages/CommandButton.Blazor/)
 
@@ -99,5 +99,5 @@ The project site contains a full working sample of CommandButton.
 ## Requirements
 The library has been developed and tested using the following tools:
 
-* .NET Core 3.0 Preview 9
-* Visual Studio 2019 Preview
+* .NET Core 3.0
+* Visual Studio 2019
